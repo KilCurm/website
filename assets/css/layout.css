@@ -1,0 +1,47 @@
+/* LAYOUT — сетка, секции, заголовки секций */
+
+.container {
+    width: min(var(--container), calc(100% - 40px));
+    margin: 0 auto;
+}
+
+.section {
+    padding: 90px 0;
+}
+
+.section-title {
+    margin-bottom: 45px;
+}
+
+.section-title h2 {
+    font-size: clamp(30px, 4vw, 44px);
+    line-height: 1.05;
+    letter-spacing: -.035em;
+}
+
+.section-title p {
+    max-width: 550px;
+    margin-top: 15px;
+    color: var(--gray);
+}
+
+.red-line {
+    width: 38px;
+    height: 3px;
+    margin-top: 18px;
+    background: var(--red);
+}
+
+/* ---------- Адаптив ---------- */
+
+@media (max-width: 700px) {
+
+    .container {
+        width: min(100% - 30px, var(--container));
+    }
+
+    .section {
+        padding: 60px 0;
+    }
+
+}

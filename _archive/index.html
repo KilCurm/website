@@ -1,0 +1,1828 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>3D Solutions — 3D-печать для реальных задач</title>
+
+    <meta
+        name="description"
+        content="3D-печать, изготовление деталей, восстановление пластиковых деталей, моделирование и функциональные изделия."
+    >
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+
+        /* =========================
+           ОСНОВНЫЕ НАСТРОЙКИ
+        ========================= */
+
+        :root {
+            --black: #080d11;
+            --dark: #0d1419;
+            --dark-2: #111a20;
+
+            --white: #ffffff;
+            --text: #171b1f;
+            --gray: #6d767d;
+            --light: #f2f4f5;
+
+            --red: #ed2424;
+            --red-dark: #c91818;
+
+            --border: #dfe3e6;
+
+            --container: 1240px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+            color: var(--text);
+            background: var(--white);
+            line-height: 1.5;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        img {
+            display: block;
+            max-width: 100%;
+        }
+
+        .container {
+            width: min(var(--container), calc(100% - 40px));
+            margin: 0 auto;
+        }
+
+        .section {
+            padding: 90px 0;
+        }
+
+
+        /* =========================
+           КНОПКИ
+        ========================= */
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+
+            min-height: 48px;
+            padding: 0 24px;
+
+            border-radius: 8px;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            cursor: pointer;
+            border: none;
+
+            transition:
+                transform .2s ease,
+                background .2s ease,
+                border-color .2s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-red {
+            color: white;
+            background: var(--red);
+        }
+
+        .btn-red:hover {
+            background: var(--red-dark);
+        }
+
+        .btn-outline {
+            color: white;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,.35);
+        }
+
+        .btn-outline:hover {
+            border-color: white;
+        }
+
+        .btn-dark {
+            background: var(--black);
+            color: white;
+        }
+
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+            position: absolute;
+            z-index: 10;
+            top: 0;
+            left: 0;
+            right: 0;
+
+            border-bottom: 1px solid rgba(255,255,255,.08);
+        }
+
+        .header-inner {
+            height: 74px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            color: white;
+        }
+
+        .logo-mark {
+            width: 40px;
+            height: 40px;
+
+            display: grid;
+            place-items: center;
+
+            color: var(--red);
+
+            font-size: 34px;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        .logo-text {
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: .04em;
+        }
+
+        .logo-subtitle {
+            display: block;
+
+            margin-top: -2px;
+
+            font-size: 7px;
+            letter-spacing: .15em;
+            color: #879199;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+
+            color: #d7dde0;
+            font-size: 13px;
+        }
+
+        nav a {
+            transition: color .2s ease;
+        }
+
+        nav a:hover {
+            color: white;
+        }
+
+        .header-button {
+            white-space: nowrap;
+        }
+
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+            min-height: 680px;
+
+            display: flex;
+            align-items: center;
+
+            position: relative;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(5,9,12,.97) 0%,
+                    rgba(5,9,12,.85) 42%,
+                    rgba(5,9,12,.30) 100%
+                ),
+                url("images/hero.jpg") center / cover no-repeat;
+
+            overflow: hidden;
+        }
+
+        .hero::after {
+            content: "";
+
+            position: absolute;
+            inset: 0;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(237,36,36,.08),
+                    transparent 35%
+                );
+
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+
+            max-width: 650px;
+
+            padding-top: 60px;
+        }
+
+        .hero h1 {
+            font-size: clamp(44px, 6vw, 76px);
+            line-height: 1.02;
+
+            letter-spacing: -.045em;
+
+            margin-bottom: 26px;
+        }
+
+        .hero h1 span {
+            color: var(--red);
+        }
+
+        .hero-description {
+            max-width: 500px;
+
+            margin-bottom: 32px;
+
+            color: #d0d6d9;
+            font-size: 17px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .hero-features {
+            display: flex;
+            gap: 35px;
+
+            margin-top: 45px;
+        }
+
+        .hero-feature {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            color: #b9c1c5;
+            font-size: 12px;
+        }
+
+        .hero-feature strong {
+            display: block;
+            color: white;
+            font-size: 13px;
+        }
+
+        .feature-icon {
+            font-size: 25px;
+        }
+
+
+        /* =========================
+           SECTION TITLE
+        ========================= */
+
+        .section-title {
+            margin-bottom: 45px;
+        }
+
+        .section-title h2 {
+            font-size: clamp(30px, 4vw, 44px);
+            line-height: 1.05;
+            letter-spacing: -.035em;
+        }
+
+        .section-title p {
+            max-width: 550px;
+
+            margin-top: 15px;
+
+            color: var(--gray);
+        }
+
+        .red-line {
+            width: 38px;
+            height: 3px;
+
+            margin-top: 18px;
+
+            background: var(--red);
+        }
+
+
+        /* =========================
+           SERVICES
+        ========================= */
+
+        .services {
+            background: var(--light);
+        }
+
+        .services-layout {
+            display: grid;
+            grid-template-columns: 190px 1fr;
+            gap: 40px;
+        }
+
+        .services-intro h2 {
+            font-size: 32px;
+            line-height: 1.05;
+        }
+
+        .services-intro p {
+            margin-top: 20px;
+
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 14px;
+        }
+
+        .service-card {
+            min-height: 270px;
+
+            padding: 22px;
+
+            background: white;
+            border: 1px solid #e6e9eb;
+            border-radius: 8px;
+
+            transition:
+                transform .25s ease,
+                box-shadow .25s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-6px);
+
+            box-shadow: 0 15px 35px rgba(0,0,0,.08);
+        }
+
+        .service-icon {
+            height: 90px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            margin-bottom: 15px;
+
+            font-size: 55px;
+            filter: grayscale(1);
+        }
+
+        .service-card h3 {
+            margin-bottom: 10px;
+
+            font-size: 15px;
+            line-height: 1.25;
+        }
+
+        .service-card p {
+            color: var(--gray);
+            font-size: 12px;
+        }
+
+
+        /* =========================
+           PROCESS
+        ========================= */
+
+        .process {
+            background: var(--dark);
+            color: white;
+        }
+
+        .process .section-title p {
+            color: #89939a;
+        }
+
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+        }
+
+        .process-step {
+            position: relative;
+
+            padding: 0 25px;
+            min-height: 220px;
+
+            border-left: 1px solid #283239;
+        }
+
+        .process-step:first-child {
+            border-left: none;
+            padding-left: 0;
+        }
+
+        .step-number {
+            width: 32px;
+            height: 32px;
+
+            display: grid;
+            place-items: center;
+
+            margin-bottom: 25px;
+
+            border: 1px solid var(--red);
+            border-radius: 50%;
+
+            color: var(--red);
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .step-icon {
+            font-size: 30px;
+            margin-bottom: 15px;
+        }
+
+        .process-step h3 {
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .process-step p {
+            color: #89939a;
+            font-size: 12px;
+        }
+
+
+        /* =========================
+           PORTFOLIO
+        ========================= */
+
+        .portfolio {
+            background: white;
+        }
+
+        .portfolio-layout {
+            display: grid;
+            grid-template-columns: 210px 1fr;
+            gap: 40px;
+        }
+
+        .portfolio-intro p {
+            margin: 20px 0;
+
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+        }
+
+        .portfolio-card {
+            overflow: hidden;
+        }
+
+        .portfolio-image {
+            aspect-ratio: 1 / 1;
+
+            overflow: hidden;
+
+            border-radius: 7px;
+
+            background: #e9ecee;
+        }
+
+        .portfolio-image img {
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+
+            transition: transform .4s ease;
+        }
+
+        .portfolio-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .portfolio-card h3 {
+            margin-top: 12px;
+
+            font-size: 13px;
+        }
+
+        .portfolio-card p {
+            margin-top: 3px;
+
+            color: var(--gray);
+            font-size: 11px;
+        }
+
+
+        /* =========================
+           ADVANTAGES
+        ========================= */
+
+        .advantages {
+            background: var(--dark);
+            color: white;
+        }
+
+        .advantages-grid {
+            display: grid;
+            grid-template-columns: 200px repeat(4, 1fr);
+            gap: 30px;
+        }
+
+        .advantages-intro p {
+            margin-top: 20px;
+
+            color: #8b959b;
+            font-size: 13px;
+        }
+
+        .advantage {
+            padding-left: 25px;
+
+            border-left: 1px solid #283239;
+        }
+
+        .advantage-icon {
+            margin-bottom: 18px;
+
+            font-size: 30px;
+        }
+
+        .advantage h3 {
+            margin-bottom: 8px;
+
+            font-size: 14px;
+        }
+
+        .advantage p {
+            color: #89939a;
+            font-size: 12px;
+        }
+
+
+        /* =========================
+           CONTACT
+        ========================= */
+
+        .contact {
+            position: relative;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(5,9,12,.92),
+                    rgba(5,9,12,.98)
+                ),
+                url("images/hero.jpg") center / cover;
+        }
+
+        .contact-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 70px;
+
+            align-items: center;
+        }
+
+        .contact-text h2 {
+            max-width: 500px;
+
+            font-size: clamp(30px, 4vw, 45px);
+            line-height: 1.05;
+
+            letter-spacing: -.03em;
+        }
+
+        .contact-text p {
+            max-width: 480px;
+
+            margin-top: 20px;
+
+            color: #aeb7bc;
+        }
+
+        .contact-form {
+            padding: 30px;
+
+            background: white;
+            color: var(--text);
+
+            border-radius: 8px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .form-group {
+            margin-bottom: 14px;
+        }
+
+        .form-group label {
+            display: block;
+
+            margin-bottom: 6px;
+
+            color: #697278;
+            font-size: 11px;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+
+            padding: 13px 14px;
+
+            border: 1px solid #d9dfe2;
+            border-radius: 5px;
+
+            outline: none;
+
+            font: inherit;
+            font-size: 13px;
+        }
+
+        input:focus,
+        textarea:focus {
+            border-color: var(--red);
+        }
+
+        textarea {
+            min-height: 110px;
+            resize: vertical;
+        }
+
+        .file-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            padding: 10px 0;
+
+            color: #687278;
+            font-size: 12px;
+
+            cursor: pointer;
+        }
+
+        .file-label input {
+            display: none;
+        }
+
+        .form-submit {
+            width: 100%;
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            background: #060b0e;
+            color: white;
+
+            padding: 30px 0;
+        }
+
+        .footer-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 25px;
+
+            color: #8d989e;
+            font-size: 12px;
+        }
+
+        .footer-contacts {
+            display: flex;
+            gap: 20px;
+
+            color: #aab3b8;
+            font-size: 12px;
+        }
+
+
+        /* =========================
+           АДАПТИВ
+        ========================= */
+
+        @media (max-width: 1100px) {
+
+            nav {
+                display: none;
+            }
+
+            .services-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .portfolio-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .advantages-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .advantages-intro {
+                grid-column: span 2;
+            }
+
+            .process-grid {
+                grid-template-columns: repeat(3, 1fr);
+                row-gap: 30px;
+            }
+
+        }
+
+
+        @media (max-width: 700px) {
+
+            .container {
+                width: min(100% - 30px, var(--container));
+            }
+
+            .section {
+                padding: 60px 0;
+            }
+
+            .header-button {
+                display: none;
+            }
+
+            .hero {
+                min-height: 700px;
+
+                background-position: 65% center;
+            }
+
+            .hero-content {
+                padding-top: 50px;
+            }
+
+            .hero h1 {
+                font-size: 48px;
+            }
+
+            .hero-description {
+                font-size: 15px;
+            }
+
+            .hero-features {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .services-layout,
+            .portfolio-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .services-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .process-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .process-step,
+            .process-step:first-child {
+                border-left: none;
+                border-top: 1px solid #283239;
+
+                padding: 25px 0;
+
+                min-height: auto;
+            }
+
+            .advantages-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .advantages-intro {
+                grid-column: auto;
+            }
+
+            .advantage {
+                border-left: none;
+                border-top: 1px solid #283239;
+
+                padding: 25px 0;
+            }
+
+            .contact-layout {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-inner {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .footer-links {
+                flex-wrap: wrap;
+            }
+
+        }
+
+
+        @media (max-width: 450px) {
+
+            .services-grid,
+            .portfolio-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 42px;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header>
+
+    <div class="container header-inner">
+
+        <a href="#" class="logo">
+
+            <div class="logo-mark">M</div>
+
+            <div>
+                <div class="logo-text">3D SOLUTIONS</div>
+                <span class="logo-subtitle">
+                    ПРОЕКТ · МОДЕЛЬ · ДЕТАЛЬ
+                </span>
+            </div>
+
+        </a>
+
+
+        <nav>
+            <a href="#services">Услуги</a>
+            <a href="#portfolio">Примеры работ</a>
+            <a href="#process">Как это работает</a>
+            <a href="#advantages">Обо мне</a>
+            <a href="#contact">Контакты</a>
+        </nav>
+
+
+        <a
+            href="#contact"
+            class="btn btn-outline header-button"
+        >
+            ✈ Оставить заявку
+        </a>
+
+    </div>
+
+</header>
+
+
+
+<!-- =========================
+     HERO
+========================= -->
+
+<section class="hero">
+
+    <div class="container">
+
+        <div class="hero-content">
+
+            <h1>
+                3D-печать
+                <span>для реальных задач</span>
+            </h1>
+
+
+            <p class="hero-description">
+                Изготовление деталей, корпусов, креплений
+                и функциональных изделий.
+                От идеи и модели до готового результата.
+            </p>
+
+
+            <div class="hero-buttons">
+
+                <a
+                    href="#contact"
+                    class="btn btn-red"
+                >
+                    ✈ Рассчитать стоимость
+                </a>
+
+                <a
+                    href="#portfolio"
+                    class="btn btn-outline"
+                >
+                    Посмотреть примеры
+                </a>
+
+            </div>
+
+
+            <div class="hero-features">
+
+                <div class="hero-feature">
+                    <span class="feature-icon">♢</span>
+
+                    <div>
+                        <strong>Качество</strong>
+                        и надёжность
+                    </div>
+                </div>
+
+
+                <div class="hero-feature">
+                    <span class="feature-icon">⚙</span>
+
+                    <div>
+                        <strong>Индивидуальный</strong>
+                        подход
+                    </div>
+                </div>
+
+
+                <div class="hero-feature">
+                    <span class="feature-icon">◷</span>
+
+                    <div>
+                        <strong>Быстрые</strong>
+                        сроки
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     SERVICES
+========================= -->
+
+<section
+    class="section services"
+    id="services"
+>
+
+    <div class="container">
+
+        <div class="services-layout">
+
+            <div class="services-intro">
+
+                <h2>
+                    Что можно
+                    изготовить
+                </h2>
+
+                <div class="red-line"></div>
+
+                <p>
+                    Помогу реализовать вашу задачу —
+                    от простой детали до сложного
+                    функционального изделия.
+                </p>
+
+            </div>
+
+
+            <div class="services-grid">
+
+
+                <article class="service-card">
+
+                    <div class="service-icon">
+                        ⚙
+                    </div>
+
+                    <h3>
+                        Изготовление деталей
+                    </h3>
+
+                    <p>
+                        Крепления, заглушки,
+                        корпуса, элементы
+                        конструкций и многое другое.
+                    </p>
+
+                </article>
+
+
+                <article class="service-card">
+
+                    <div class="service-icon">
+                        🔧
+                    </div>
+
+                    <h3>
+                        Восстановление
+                        пластиковых деталей
+                    </h3>
+
+                    <p>
+                        Если деталь сломалась
+                        или потерялась —
+                        попробуем изготовить замену.
+                    </p>
+
+                </article>
+
+
+                <article class="service-card">
+
+                    <div class="service-icon">
+                        ◈
+                    </div>
+
+                    <h3>
+                        Печать по
+                        3D-модели
+                    </h3>
+
+                    <p>
+                        У вас есть STL, 3MF или CAD?
+                        Напечатаю готовое изделие.
+                    </p>
+
+                </article>
+
+
+                <article class="service-card">
+
+                    <div class="service-icon">
+                        ⬡
+                    </div>
+
+                    <h3>
+                        Моделирование
+                        + печать
+                    </h3>
+
+                    <p>
+                        Нет модели?
+                        Разработаю конструкцию
+                        и изготовлю её.
+                    </p>
+
+                </article>
+
+
+                <article class="service-card">
+
+                    <div class="service-icon">
+                        ▰
+                    </div>
+
+                    <h3>
+                        Функциональные
+                        изделия
+                    </h3>
+
+                    <p>
+                        Корпуса, держатели,
+                        органайзеры,
+                        приспособления и другие
+                        полезные вещи.
+                    </p>
+
+                </article>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     PROCESS
+========================= -->
+
+<section
+    class="section process"
+    id="process"
+>
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <h2>
+                Как проходит заказ
+            </h2>
+
+            <div class="red-line"></div>
+
+            <p>
+                Просто и прозрачно —
+                на связи на каждом этапе.
+            </p>
+
+        </div>
+
+
+        <div class="process-grid">
+
+
+            <div class="process-step">
+
+                <div class="step-number">1</div>
+
+                <div class="step-icon">💬</div>
+
+                <h3>
+                    Вы рассказываете
+                    о задаче
+                </h3>
+
+                <p>
+                    Отправляете фото,
+                    размеры или описание.
+                </p>
+
+            </div>
+
+
+            <div class="process-step">
+
+                <div class="step-number">2</div>
+
+                <div class="step-icon">◇</div>
+
+                <h3>
+                    Определяем способ
+                    изготовления
+                </h3>
+
+                <p>
+                    Оцениваем конструкцию,
+                    материал и технологию.
+                </p>
+
+            </div>
+
+
+            <div class="process-step">
+
+                <div class="step-number">3</div>
+
+                <div class="step-icon">▤</div>
+
+                <h3>
+                    Согласовываем
+                    стоимость
+                </h3>
+
+                <p>
+                    До начала работы вы знаете
+                    ориентировочную цену.
+                </p>
+
+            </div>
+
+
+            <div class="process-step">
+
+                <div class="step-number">4</div>
+
+                <div class="step-icon">▣</div>
+
+                <h3>
+                    Печатаем
+                </h3>
+
+                <p>
+                    Контролируем качество
+                    на всех этапах.
+                </p>
+
+            </div>
+
+
+            <div class="process-step">
+
+                <div class="step-number">5</div>
+
+                <div class="step-icon">✓</div>
+
+                <h3>
+                    Вы получаете
+                    готовое изделие
+                </h3>
+
+                <p>
+                    Проверяете результат
+                    и используете его.
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     PORTFOLIO
+========================= -->
+
+<section
+    class="section portfolio"
+    id="portfolio"
+>
+
+    <div class="container">
+
+        <div class="portfolio-layout">
+
+
+            <div class="portfolio-intro">
+
+                <h2>
+                    Примеры
+                    работ
+                </h2>
+
+                <div class="red-line"></div>
+
+                <p>
+                    Реальные изделия,
+                    выполненные для разных задач.
+                </p>
+
+                <a
+                    href="#contact"
+                    class="btn btn-dark"
+                >
+                    Смотреть все работы →
+                </a>
+
+            </div>
+
+
+            <div class="portfolio-grid">
+
+
+                <article class="portfolio-card">
+
+                    <div class="portfolio-image">
+                        <img
+                            src="images/work-1.jpg"
+                            alt="Кронштейн"
+                        >
+                    </div>
+
+                    <h3>
+                        Кронштейн для крепления
+                    </h3>
+
+                    <p>
+                        PLA · 3D-печать
+                    </p>
+
+                </article>
+
+
+                <article class="portfolio-card">
+
+                    <div class="portfolio-image">
+                        <img
+                            src="images/work-2.jpg"
+                            alt="Шестерня"
+                        >
+                    </div>
+
+                    <h3>
+                        Функциональная шестерня
+                    </h3>
+
+                    <p>
+                        PETG · 3D-печать
+                    </p>
+
+                </article>
+
+
+                <article class="portfolio-card">
+
+                    <div class="portfolio-image">
+                        <img
+                            src="images/work-3.jpg"
+                            alt="Подставка"
+                        >
+                    </div>
+
+                    <h3>
+                        Подставка для телефона
+                    </h3>
+
+                    <p>
+                        PLA · 3D-печать
+                    </p>
+
+                </article>
+
+
+                <article class="portfolio-card">
+
+                    <div class="portfolio-image">
+                        <img
+                            src="images/work-4.jpg"
+                            alt="Декоративная деталь"
+                        >
+                    </div>
+
+                    <h3>
+                        Декоративный элемент
+                    </h3>
+
+                    <p>
+                        PLA · 3D-печать
+                    </p>
+
+                </article>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     ADVANTAGES
+========================= -->
+
+<section
+    class="section advantages"
+    id="advantages"
+>
+
+    <div class="container">
+
+        <div class="advantages-grid">
+
+
+            <div class="advantages-intro">
+
+                <h2>
+                    Почему такой
+                    подход
+                </h2>
+
+                <div class="red-line"></div>
+
+                <p>
+                    Я не просто печатаю.
+                    Я решаю инженерные задачи.
+                </p>
+
+            </div>
+
+
+            <article class="advantage">
+
+                <div class="advantage-icon">
+                    ◎
+                </div>
+
+                <h3>
+                    Инженерный подход
+                </h3>
+
+                <p>
+                    Учитываю назначение детали,
+                    подбираю материал под задачу
+                    и при необходимости
+                    дорабатываю модель.
+                </p>
+
+            </article>
+
+
+            <article class="advantage">
+
+                <div class="advantage-icon">
+                    ▱
+                </div>
+
+                <h3>
+                    Разнообразие материалов
+                </h3>
+
+                <p>
+                    PLA, PETG, ABS, TPU
+                    и другие материалы
+                    под конкретные условия
+                    эксплуатации.
+                </p>
+
+            </article>
+
+
+            <article class="advantage">
+
+                <div class="advantage-icon">
+                    ♧
+                </div>
+
+                <h3>
+                    Опыт и знания
+                </h3>
+
+                <p>
+                    Инженерное образование,
+                    опыт работы с 3D-моделированием,
+                    печатью и практическими задачами.
+                </p>
+
+            </article>
+
+
+            <article class="advantage">
+
+                <div class="advantage-icon">
+                    ♢
+                </div>
+
+                <h3>
+                    Честная коммуникация
+                </h3>
+
+                <p>
+                    Обсуждаем ограничения
+                    технологии и возможные
+                    варианты решения.
+                </p>
+
+            </article>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     CONTACT
+========================= -->
+
+<section
+    class="section contact"
+    id="contact"
+>
+
+    <div class="container">
+
+        <div class="contact-layout">
+
+
+            <div class="contact-text">
+
+                <h2>
+                    Не знаете,
+                    получится ли
+                    ваша деталь?
+                </h2>
+
+                <div class="red-line"></div>
+
+                <p>
+                    Отправьте фотографию и кратко
+                    опишите задачу — я посмотрю,
+                    что можно сделать.
+                </p>
+
+            </div>
+
+
+            <form
+                class="contact-form"
+                id="contactForm"
+            >
+
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                        <label>
+                            Ваше имя *
+                        </label>
+
+                        <input
+                            type="text"
+                            name="name"
+                            placeholder="Как к вам обращаться?"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Телефон / Telegram *
+                        </label>
+
+                        <input
+                            type="text"
+                            name="contact"
+                            placeholder="+7..."
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Что нужно изготовить?
+                    </label>
+
+                    <textarea
+                        name="message"
+                        placeholder="Опишите задачу, размеры, материал или другие требования..."
+                    ></textarea>
+
+                </div>
+
+
+                <label class="file-label">
+
+                    📎
+
+                    <span>
+                        Прикрепить фотографию
+                    </span>
+
+                    <input
+                        type="file"
+                        name="file"
+                        accept="image/*"
+                    >
+
+                </label>
+
+
+                <button
+                    type="submit"
+                    class="btn btn-dark form-submit"
+                >
+                    Отправить заявку →
+                </button>
+
+            </form>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <div class="container footer-inner">
+
+
+        <a href="#" class="logo">
+
+            <div class="logo-mark">M</div>
+
+            <div>
+                <div class="logo-text">
+                    3D SOLUTIONS
+                </div>
+
+                <span class="logo-subtitle">
+                    ПРОЕКТ · МОДЕЛЬ · ДЕТАЛЬ
+                </span>
+            </div>
+
+        </a>
+
+
+        <div class="footer-links">
+
+            <a href="#services">
+                Услуги
+            </a>
+
+            <a href="#portfolio">
+                Примеры работ
+            </a>
+
+            <a href="#process">
+                Как это работает
+            </a>
+
+            <a href="#advantages">
+                Обо мне
+            </a>
+
+            <a href="#contact">
+                Контакты
+            </a>
+
+        </div>
+
+
+        <div class="footer-contacts">
+
+            <span>
+                ✈ Telegram
+            </span>
+
+            <span>
+                ☎ +7 999 123-45-67
+            </span>
+
+            <span>
+                ✉ info@3d-solutions.ru
+            </span>
+
+        </div>
+
+
+    </div>
+
+</footer>
+
+
+
+<script>
+
+    /* =========================
+       ФОРМА
+    ========================= */
+
+    const form = document.getElementById("contactForm");
+
+    form.addEventListener("submit", function(event) {
+
+        event.preventDefault();
+
+        const name =
+            form.querySelector('[name="name"]').value;
+
+        alert(
+            `Спасибо, ${name}!\n\nЗаявка подготовлена.`
+        );
+
+        form.reset();
+
+    });
+
+
+    /* =========================
+       ПЛАВНАЯ НАВИГАЦИЯ
+    ========================= */
+
+    document
+        .querySelectorAll('a[href^="#"]')
+        .forEach(link => {
+
+            link.addEventListener("click", function(event) {
+
+                const target =
+                    document.querySelector(
+                        this.getAttribute("href")
+                    );
+
+                if (!target) return;
+
+                event.preventDefault();
+
+                target.scrollIntoView({
+                    behavior: "smooth"
+                });
+
+            });
+
+        });
+
+</script>
+
+
+</body>
+</html>
