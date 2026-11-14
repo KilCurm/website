@@ -1,6 +1,34 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
-  <rect width="32" height="32" fill="#080d11"/>
-  <text x="16" y="16" text-anchor="middle" dominant-baseline="central"
-        font-family="Arial, Helvetica, sans-serif" font-weight="700"
-        font-size="22" fill="#ffffff">К</text>
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW 2020 (64-Bit) -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="28.9124mm" height="28.9124mm" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 517.89 517.89"
+ xmlns:xlink="http://www.w3.org/1999/xlink"
+ xmlns:xodm="http://www.corel.com/coreldraw/odm/2003">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .fil0 {fill:#FEFEFE}
+    .fil1 {fill:#434343}
+   ]]>
+  </style>
+ </defs>
+ <g id="Слой_x0020_1">
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <g id="_1700031245840">
+   <rect class="fil0" x="0" y="0" width="517.89" height="517.89" rx="107.47" ry="107.47"/>
+   <rect class="fil1" x="103.73" y="43.16" width="90.05" height="75.24"/>
+   <rect class="fil1" x="103.73" y="132.24" width="90.05" height="75.24"/>
+   <rect class="fil1" x="103.73" y="221.33" width="90.05" height="75.24"/>
+   <rect class="fil1" x="103.73" y="310.41" width="90.05" height="75.24"/>
+   <rect class="fil1" x="103.73" y="399.5" width="90.05" height="75.24"/>
+   <path class="fil1" d="M289.16 132.24l14.81 0 0 75.24 -90.05 0 0 0c0,-41.38 33.86,-75.24 75.24,-75.24z"/>
+   <rect class="fil1" x="213.92" y="221.33" width="90.05" height="75.24"/>
+   <path class="fil1" d="M213.92 310.41l90.05 0 0 0c0,41.38 -33.86,75.24 -75.24,75.24l-14.81 0 0 -75.24z"/>
+   <rect class="fil1" x="319.37" y="43.16" width="90.05" height="75.24"/>
+   <path class="fil1" d="M319.37 132.24l90.05 0 0 0c0,41.38 -33.86,75.24 -75.24,75.24l-14.81 0 0 -75.24z"/>
+   <path class="fil1" d="M319.37 310.41l14.81 0c41.38,0 75.24,33.86 75.24,75.24l0 0 -90.05 0 0 -75.24z"/>
+   <rect class="fil1" x="319.37" y="399.5" width="90.05" height="75.24"/>
+  </g>
+ </g>
 </svg>
