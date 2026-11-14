@@ -360,6 +360,16 @@ nav a:hover {
     font-weight: 600;
 }
 
+.step-icon {
+    margin-bottom: 15px;
+}
+
+.step-icon svg {
+    width: 28px;
+    height: 28px;
+    display: block;
+}
+
 .process-step h3 {
     font-size: 14px;
     margin-bottom: var(--space-2);
