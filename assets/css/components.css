@@ -72,6 +72,10 @@
     right: 0;
 
     border-bottom: 1px solid rgba(255, 255, 255, .08);
+
+    background: rgba(5, 9, 12, .72);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
 }
 
 .header-inner {
@@ -145,7 +149,7 @@ nav a:hover {
             rgba(5, 9, 12, .85) 42%,
             rgba(5, 9, 12, .30) 100%
         ),
-        url("/assets/img/hero/hero.svg") center / cover no-repeat;
+        url("/assets/img/hero/hero.webp") center / cover no-repeat;
 
     overflow: hidden;
 }
@@ -508,7 +512,7 @@ nav a:hover {
             rgba(5, 9, 12, .92),
             rgba(5, 9, 12, .98)
         ),
-        url("/assets/img/hero/hero.svg") center / cover;
+        url("/assets/img/hero/hero.webp") center / cover;
 }
 
 .contact-layout {
