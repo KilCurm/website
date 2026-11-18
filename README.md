@@ -156,5 +156,6 @@ python -m http.server 8000
 - `og:image` добавлен в `<head>`: `https://kubicus.ru/assets/img/og-image.webp` (абсолютный URL), плюс `og:image:width=1200`, `og:image:height=630`, `og:image:alt`. Остальные OG-теги не тронуты.
 - Шапка: по запросу сделана полупрозрачной с blur — `background: rgba(5, 9, 12, .72); backdrop-filter: blur(6px);` (вариант A). Изначально вне scope, добавлено по согласованию, чтобы фон hero не мешал читаемости навигации и лого.
 - Удалены SVG-заглушки: `assets/img/hero/hero.svg`, `assets/img/portfolio/work-1..4.svg`.
-- Источник картинок — AI-генерация, сетка 3×2, инструмент: [указать при коммите — Midjourney / DALL·E / Stable Diffusion / др.].
+- Источник картинок — AI-генерация, сетка 3×2, инструмент: ChatGPT.
 - **Портфолио — временное.** `work-1..4.webp` будут заменены на реальные фото деталей (см. «Что дальше»). Hero и og-image тоже AI, но живут до появления реального hero-фото; для og:image решаем отдельно после этого.
+- Header теперь rgba(5,9,12,.72) + backdrop-filter: blur(6px). Это работает, пока header position: absolute и виден только над тёмным hero. Если когда-нибудь сделаем его position: fixed со скроллом (липкая навигация) — нужно перепроверить на светлых секциях: blur будет «просвечивать» контент, и читаемость упадёт.
