@@ -168,3 +168,18 @@ python -m http.server 8000
 - Self-host Inter, если Google Fonts окажется нестабильным.
 - Валидация поля «Телефон / Telegram» — не срочно.
 - Проверить TLS на kubicus.ru после переключения DNS.
+- **Средний приоритет:** burger-меню — навигация скрыта на `≤1100px`, пользователь не попадает в секции без прокрутки к footer. Не добавлять без решения по структуре.
+
+---
+
+## История сессий
+
+### Сессия 5
+
+- **Аудит мобильной адаптации** (360px, 390px, 768px) по коду `components.css` и `layout.css`. 6 проблем (1 критично, 3 средне, 2 мелко, 2 флага).
+- **Исправлено (только `components.css`, десктопные стили не тронуты):**
+  - Поля ввода `input, textarea`: `font-size: 13px` → `16px` — защита от iOS-зума при фокусе.
+  - Footer tap targets: `min-height: 44px` для `.footer-links a` и `.footer-contacts span`.
+  - Hero `min-height` в `@media ≤700px`: `700px` → `min(700px, 100vh)`.
+  - Hero `h1` в `@media ≤450px`: `42px` → `clamp(28px, 11vw, 42px)`.
+- **Флаги (не оптимизировано без запроса):** `background-position: 65% center` на hero-фоне; `backdrop-filter: blur` на header; вес hero-изображения на мобильном интернете.

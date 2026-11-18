@@ -583,7 +583,7 @@ textarea {
     outline: none;
 
     font: inherit;
-    font-size: 13px;
+    font-size: 16px; /* ≥16px — иначе iOS Safari зумит страницу при фокусе */
 }
 
 input:focus,
@@ -658,6 +658,13 @@ textarea {
     font-size: 12px;
 }
 
+.footer-links a {
+    display: inline-flex;
+    align-items: center;
+
+    min-height: 44px; /* tap target */
+}
+
 .footer-contacts {
     display: flex;
     gap: 20px;
@@ -670,6 +677,8 @@ textarea {
     display: inline-flex;
     align-items: center;
     gap: 6px;
+
+    min-height: 44px; /* tap target */
 }
 
 .footer-contacts svg {
@@ -721,7 +730,7 @@ textarea {
     }
 
     .hero {
-        min-height: 700px;
+        min-height: min(700px, 100vh);
 
         background-position: 65% center;
     }
@@ -811,7 +820,7 @@ textarea {
     }
 
     .hero h1 {
-        font-size: 42px;
+        font-size: clamp(28px, 11vw, 42px);
     }
 
     .hero-buttons {
