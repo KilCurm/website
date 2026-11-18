@@ -41,7 +41,23 @@
     }
 
     .section {
-        padding: 60px 0;
+        padding: 48px 0;
+    }
+
+    .section-title {
+        margin-bottom: 32px;
+    }
+
+}
+
+@media (max-width: 450px) {
+
+    .section {
+        padding: 36px 0;
+    }
+
+    .section-title {
+        margin-bottom: 24px;
     }
 
 }

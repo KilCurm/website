@@ -703,6 +703,10 @@ textarea {
         grid-template-columns: repeat(3, 1fr);
     }
 
+    .services-layout {
+        grid-template-columns: 1fr;
+    }
+
     .portfolio-grid {
         grid-template-columns: repeat(2, 1fr);
     }
@@ -720,6 +724,10 @@ textarea {
         row-gap: 30px;
     }
 
+    .process-step {
+        border-left: none;
+    }
+
 }
 
 
@@ -727,6 +735,11 @@ textarea {
 
     .header-button {
         display: none;
+    }
+
+    .header-inner {
+        justify-content: center;
+        position: relative; /* заложить место для burger-кнопки справа (сессия 7) */
     }
 
     .hero {
@@ -760,6 +773,10 @@ textarea {
 
     .services-grid {
         grid-template-columns: repeat(2, 1fr);
+    }
+
+    .service-card {
+        min-height: auto;
     }
 
     .process-grid {
@@ -802,11 +819,18 @@ textarea {
 
     .footer-inner {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
+        text-align: center;
     }
 
     .footer-links {
-        flex-wrap: wrap;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .footer-contacts {
+        flex-direction: column;
+        gap: 10px;
     }
 
 }
@@ -817,6 +841,7 @@ textarea {
     .services-grid,
     .portfolio-grid {
         grid-template-columns: 1fr;
+        gap: 8px;
     }
 
     .hero h1 {

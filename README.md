@@ -170,3 +170,13 @@ python -m http.server 8000
   - Hero `h1` на `≤450px`: фиксированный `42px` → `clamp(28px, 11vw, 42px)` — адаптивный размер для 360px.
 - **В backlog:** burger-меню (навигация скрыта на `≤1100px`, пользователь не попадает в секции без прокрутки). Не добавлять без решения по структуре.
 - **Флаги (не оптимизировано):** `background-position: 65% center` — проверить визуально на AI-фоне; `backdrop-filter: blur` — проверить на FPS; hero-изображение 200–400 КБ — проверить вес на моб. интернете.
+
+### Сессия 6
+
+- **Мобильные CSS-фиксы (без burger-меню):**
+  - **2б** — Логотип по центру в header и footer на `≤700px`: `.header-inner { justify-content: center; position: relative }` (место под burger на сессию 7), `.footer-inner { align-items: center; text-align: center }`.
+  - **2в** — Уменьшение высоты блоков на 360/390: `.section` padding 48px (≤700) / 36px (≤450), `.service-card min-height: auto` (≤700), `gap: 8px` у сеток (≤450), `.section-title` margin-bottom 32px (≤700) / 24px (≤450).
+  - **2г(a)** — Process на 768px: `.process-step { border-left: none }` на `≤1100px` (убрана «ломаная» линия).
+  - **2г(b)** — Services на 768px: `.services-layout { grid-template-columns: 1fr }` на `≤1100px` (intro сверху, grid на всю ширину, карточки одинаковые).
+  - **2д** — Footer на `≤700px`: `.footer-links` и `.footer-contacts` в `flex-direction: column`, выравнивание по центру.
+- **Burger-меню не добавлено** (перенесено на сессию 7).
