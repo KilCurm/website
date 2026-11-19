@@ -650,21 +650,6 @@ textarea {
     gap: 30px;
 }
 
-.footer-links {
-    display: flex;
-    gap: 25px;
-
-    color: #8d989e;
-    font-size: 12px;
-}
-
-.footer-links a {
-    display: inline-flex;
-    align-items: center;
-
-    min-height: 44px; /* tap target */
-}
-
 .footer-contacts {
     display: flex;
     gap: 20px;
@@ -721,11 +706,13 @@ textarea {
 
     .process-grid {
         grid-template-columns: repeat(3, 1fr);
-        row-gap: 30px;
+        gap: 30px;
     }
 
-    .process-step {
+    .process-step,
+    .process-step:first-child {
         border-left: none;
+        padding: 0;
     }
 
 }
@@ -821,11 +808,6 @@ textarea {
         flex-direction: column;
         align-items: center;
         text-align: center;
-    }
-
-    .footer-links {
-        flex-direction: column;
-        gap: 12px;
     }
 
     .footer-contacts {
