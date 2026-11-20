@@ -15,7 +15,7 @@ Landing page для бренда «КУБИКУС» — услуги 3D-печа
 - **Hero** — заголовок, описание, две кнопки CTA, три преимущества (фон: AI-генерация `hero.webp`).
 - **Services** — 5 карточек услуг (изготовление деталей, восстановление, печать по модели, моделирование + печать, функциональные изделия).
 - **Process** — 5 шагов заказа (от описания задачи до получения изделия).
-- **Portfolio** — 4 карточки работ (AI-заглушки `work-1..4.webp`, 800×800, lazy-load).
+- **Portfolio («Что можно изготовить»)** — 4 карточки изделий (AI-заглушки `work-1..4.webp`, 800×800, lazy-load).
 - **Advantages** — 4 карточки преимуществ (инженерный подход, материалы, опыт, коммуникация).
 - **Contact** — форма заявки (имя, телефон/Telegram, описание задачи).
 - **Footer** — логотип + контакты (Telegram, телефон, email).
@@ -35,6 +35,8 @@ Landing page для бренда «КУБИКУС» — услуги 3D-печа
 │   │   ├── layout.css      ← .container, .section, .section-title, .red-line
 │   │   ├── components.css  ← header, hero, секции, форма, footer, медиазапросы
 │   │   └── pages.css       ← переопределения под конкретные страницы (пока пусто)
+│   ├── fonts/
+│   │   ├── inter-400.woff2 ← self-host Inter, latin+cyrillic subset (~26 КБ)
 │   ├── js/
 │   │   ├── nav.js          ← плавный скролл по якорям (IIFE)
 │   │   ├── form.js         ← отправка формы в Formspree (fetch), кнопка-индикатор
@@ -92,7 +94,7 @@ python -m http.server 8000
 | Разметка | HTML5 |
 | Стили | CSS3 (custom properties, flexbox, grid) |
 | Скрипты | Vanilla JS (ES5), IIFE-паттерн |
-| Шрифт | Google Fonts — Inter (400, 500, 600, 700, 800) |
+| Шрифт | Inter (self-host, `assets/fonts/`, WOFF2 400/500/600/700/800, `@font-face` в `base.css`) |
 | Формы | Formspree (`https://formspree.io/f/mkjrgroy`) |
 | Иконки | SVG-спрайт (`icons.svg` + `<use>`) |
 | Изображения | WebP |
@@ -164,7 +166,7 @@ python -m http.server 8000
 
 ## Задачи из backlog (из README)
 
-- **Высокий приоритет:** заменить AI-фото портфолио (`work-1..4.webp`) на реальные фото деталей. Сохранить имена файлов и размеры (800×800).
+- Фото портфолио — после командировки (модели, печать, съёмка). До этого AI-заглушки — норма.
 - Self-host Inter, если Google Fonts окажется нестабильным.
 - Валидация поля «Телефон / Telegram» — не срочно.
 - Проверить TLS на kubicus.ru после переключения DNS.

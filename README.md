@@ -115,8 +115,8 @@ python -m http.server 8000
 
 ## Что дальше (не в этой сессии)
 
-- **Следующая сессия (9):** реальные фото портфолио (высокий приоритет). Заменить AI-заглушки (`work-1..4.webp`) на реальные фото деталей. Имена файлов и размеры (800×800) сохранить, alt'ы проверить по факту.
-- Self-host Inter, если Google Fonts окажется нестабильным на проде.
+- Фото портфолио — ПОСЛЕ возвращения из командировки (модели → печать → съёмка → замена work-1..4.webp). До этого сайт деплоится с AI-заглушками.
+- Следующая сессия (10): form fallback без JS, валидация, вес hero, cross-browser, robots/sitemap.
 - Валидация поля «Телефон / Telegram» и/или его переименование в «Как с вами связаться?» (@telegram / телефон / VK) — обсудить, не срочно.
 - Проверить TLS на kubicus.ru после переключения DNS.
 
@@ -195,3 +195,10 @@ python -m http.server 8000
 - Панель позиционируется `top: 74px` (высота шапки), а не `top: 100%`: `.mobile-menu` — вне `<header>`, `100%` от body ушло бы за экран.
 - На десктопе (≥1101px) кнопки и панели нет (`display: none` по умолчанию).
 - **Известная особенность:** transition панели (`transform`/`opacity`) не проигрывается при открытии, т.к. смена `display: none → block` не анимируется. Визуально панель появляется мгновенно. Если нужен плавный slide — решать отдельно (visibility/`@starting-style`/rAF).
+
+### Сессия 9
+
+- **Секция Portfolio переименована:** `<h2>` «Примеры работ» → «Что можно изготовить», подзаголовок → «Типы изделий, которые мы можем изготовить из PLA, PETG, ABS, TPU». Ссылки «Примеры работ» → «Что можно изготовить» в десктопном nav и в burger-меню. Кнопка «Все работы →» из `portfolio-intro` удалена (вела на форму, а не на «все работы»). `id="portfolio"` и alt'ы картинок не менялись.
+- **Self-host Inter:** 5 WOFF2 в `assets/fonts/` (`inter-400/500/600/700/800.woff2`, скачаны с rsms.me, лицензия SIL OFL, сабсетнуты до latin+cyrillic+пунктуация, ~26 КБ каждый). В `base.css` — 5 блоков `@font-face` с `font-display: swap` в самом верху, до `:root`. В `index.html` удалены preconnect и stylesheet Google Fonts. `body { font-family: "Inter", sans-serif }` не менялся.
+- **Fix transition burger-панели (вариант B):** в `.mobile-menu` `display: none/block` заменён на `visibility: hidden` + `max-height: 0` + `overflow: hidden` + `opacity: 0`; в `.is-open` — `visibility: visible` + `max-height: 100vh` + `opacity: 1`. `transition` с `visibility 0s .25s` при закрытии и `visibility 0s 0s` при открытии. `burger.js` не тронут — он уже управляет `.is-open` и `aria-hidden`.
+- **OG-проверка на временном деплое:** выполняется после коммита (Netlify Drop → metatags.io → превью в Telegram). Результат: ожидается.
