@@ -59,6 +59,18 @@
             </span>
         </a>
 
+        <button
+            class="nav-toggle"
+            type="button"
+            aria-label="Открыть меню"
+            aria-expanded="false"
+            aria-controls="mobile-menu"
+        >
+            <span class="nav-toggle__line"></span>
+            <span class="nav-toggle__line"></span>
+            <span class="nav-toggle__line"></span>
+        </button>
+
 
         <nav>
             <a href="#services">Услуги</a>
@@ -80,6 +92,23 @@
     </div>
 
 </header>
+
+
+<!-- =========================
+        MOBILE MENU (burger, ≤1100px)
+========================= -->
+
+<div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+
+    <nav class="mobile-menu__nav">
+        <a href="#services">Услуги</a>
+        <a href="#process">Как это работает</a>
+        <a href="#portfolio">Примеры работ</a>
+        <a href="#advantages">О нас</a>
+        <a href="#contact">Контакты</a>
+    </nav>
+
+</div>
 
 
 <main>
@@ -750,6 +779,7 @@
 
 <script src="/assets/js/nav.js" defer></script>
 <script src="/assets/js/form.js" defer></script>
+<script src="/assets/js/burger.js" defer></script>
 
 
 </body>

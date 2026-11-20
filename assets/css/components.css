@@ -130,6 +130,88 @@ nav a:hover {
 }
 
 
+/* ---------- Burger (≤1100px) ---------- */
+
+.nav-toggle {
+    display: none;
+    width: 44px;
+    height: 44px;
+
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.nav-toggle__line {
+    display: block;
+    width: 22px;
+    height: 2px;
+
+    background: var(--white);
+    border-radius: var(--radius-sm);
+
+    transition: transform .2s ease, opacity .2s ease;
+}
+
+.nav-toggle[aria-expanded="true"] .nav-toggle__line:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+
+.nav-toggle[aria-expanded="true"] .nav-toggle__line:nth-child(2) {
+    opacity: 0;
+}
+
+.nav-toggle[aria-expanded="true"] .nav-toggle__line:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+}
+
+.mobile-menu {
+    display: none;
+    position: absolute;
+    top: 74px;
+    left: 0;
+    right: 0;
+    z-index: 9;
+
+    background: var(--dark);
+    transform: translateY(-10px);
+    opacity: 0;
+
+    transition: transform .2s ease, opacity .2s ease;
+}
+
+.mobile-menu.is-open {
+    display: block;
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.mobile-menu__nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0; /* перебиваем nav { gap: 30px } */
+}
+
+.mobile-menu__nav a {
+    display: block;
+    padding: var(--space-4);
+    color: #d7dde0;
+    font-size: 16px;
+
+    border-bottom: 1px solid rgba(255, 255, 255, .08);
+}
+
+.mobile-menu__nav a:last-child {
+    border-bottom: none;
+}
+
+
 /* ---------- Hero ---------- */
 
 .hero {
@@ -684,6 +766,19 @@ textarea {
         display: none;
     }
 
+    .header-inner {
+        position: relative;
+        padding-right: var(--space-7); /* заложить место под burger-кнопку, чтобы не накрыть CTA */
+    }
+
+    .nav-toggle {
+        display: flex;
+        position: absolute;
+        right: var(--space-3);
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
     .services-grid {
         grid-template-columns: repeat(3, 1fr);
     }
@@ -727,6 +822,7 @@ textarea {
     .header-inner {
         justify-content: center;
         position: relative; /* заложить место для burger-кнопки справа (сессия 7) */
+        padding-right: 0; /* CTA здесь скрыт, логотип центрируется без отступа */
     }
 
     .hero {
