@@ -781,7 +781,7 @@ textarea {
 
     .header-inner {
         position: relative;
-        padding-right: var(--space-7); /* заложить место под burger-кнопку, чтобы не накрыть CTA */
+        padding-right: var(--space-8); /* увеличено до 64px, чтобы бургер не наезжал на CTA */
     }
 
     .nav-toggle {

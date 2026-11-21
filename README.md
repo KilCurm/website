@@ -9,21 +9,26 @@
 /
 ├── index.html              ← единственная страница
 ├── README.md               ← этот файл
+├── robots.txt              ← SEO
+├── sitemap.xml             ← SEO
+├── HANDOFF.md              ← инструкция деплойщику
 └── assets/
     ├── css/
-    │   ├── base.css        ← reset, :root-токены, body, a, img
+    │   ├── base.css        ← reset, :root-токены, @font-face, body, a, img
     │   ├── layout.css      ← .container, .section, .section-title, .red-line
     │   ├── components.css  ← кнопки, header, hero, секции, форма, footer, медиазапросы
     │   └── pages.css       ← переопределения под конкретные страницы (пока пусто)
+    ├── fonts/              ← self-host Inter (5 WOFF2, ~26 КБ каждый)
     ├── js/
     │   ├── nav.js          ← плавный скролл по якорям
-    │   └── form.js         ← отправка формы в Formspree (fetch), кнопка-индикатор
+    │   ├── form.js         ← отправка формы в Formspree (fetch + валидация), кнопка-индикатор
+    │   └── burger.js       ← toggle burger-меню
     └── img/
         ├── favicon.svg     ← иконка вкладки (логотип «К»)
         ├── logo.svg        ← основной логотип (шапка, подвал)
         ├── icons.svg       ← SVG-спрайт с <symbol> для всех иконок
         ├── og-image.webp   ← OG-картинка для превью (1200×630)
-        ├── hero/           ← фон hero и contact (hero.webp)
+        ├── hero/           ← фон hero и contact (hero.webp, 186 КБ)
         └── portfolio/      ← картинки работ (work-1..4.webp — AI-заглушки)
 ```
 
@@ -63,7 +68,7 @@ python -m http.server 8000
 3. Подключить те же 4 CSS в том же порядке и те же 2 JS с `defer`. Пути уже абсолютные (`/assets/...`), менять не нужно.
 4. Удалить секции, которые не нужны, оставить нужные.
 5. Если нужны переопределения конкретно под эту страницу — писать их в `pages.css` (не в `components.css`).
-6. Ссылку на новую страницу добавить только в `<nav>` шапки (или в burger-меню, когда появится). Footer навигацию не содержит.
+6. Ссылку добавить в `<nav>` шапки и в `<nav class="mobile-menu__nav">`. Обе копии обязательны.
 
 ## Соглашения
 
@@ -90,6 +95,7 @@ python -m http.server 8000
   ```
 
   Скрипт не падает на странице без этого элемента.
+- burger.js — toggle burger-меню, aria-expanded/aria-hidden, закрытие по Esc/клику-вне/клику по ссылке.
 
 ### Картинки
 
@@ -116,8 +122,7 @@ python -m http.server 8000
 ## Что дальше (не в этой сессии)
 
 - Фото портфолио — ПОСЛЕ возвращения из командировки (модели → печать → съёмка → замена work-1..4.webp). До этого сайт деплоится с AI-заглушками.
-- Следующая сессия (11): финальный QA (Chrome/Firefox/Safari, 360/390/768/1200), HANDOFF.md, финальный прогон формы.
-- Валидация поля «Телефон / Telegram» и/или его переименование в «Как с вами связаться?» (@telegram / телефон / VK) — обсудить, не срочно.
+- Telegram: завести канал/аккаунт, добавить ссылку в footer (после командировки).
 - Проверить TLS на kubicus.ru после переключения DNS.
 
 ## История сессий
@@ -211,3 +216,19 @@ python -m http.server 8000
 - **Blur header** 6→4px (`backdrop-filter` + `-webkit-backdrop-filter`).
 - **`robots.txt` + `sitemap.xml`** (одна страница, `changefreq: monthly`, `priority: 1.0`, без `lastmod`).
 - **Hero-вес:** 186 КБ ≤ 250 КБ — оставлен без изменений.
+
+### Сессия 11
+
+- Финальный QA (только проверка, без правок):
+  - **A** — размеры: WebP 680.5 КБ ≤ 1 МБ ✅, шрифты 130 КБ ≤ 150 КБ ✅; Console/Network — от пользователя.
+  - **B** — валидация по коду: имя ≥ 2 ✅, контакт ≥ 5 ✅, `@username` проходит ✅, пустое имя → ошибка без POST ✅; burger.js (IIFE, toggle/Esc/клик-вне/клик-по-ссылке) ✅; nav.js smooth scroll ✅; CTA `#contact` ✅; favicon ✅.
+  - **C** — по коду: `input/textarea { font-size: 16px }` ✅, tap-targets 44×44 ✅, breakpoint 1100px ✅, clamp/aspect-ratio ✅; визуально (ширины 360/390/768/1200) — от пользователя.
+  - **D** — `-webkit-backdrop-filter` префикс присутствует ✅; Safari — не проверено.
+  - **E** — OG-теги все корректны, абсолютный URL ✅; `curl -I` на проду — после деплоя.
+  - **F** — `<title>` 43 символа ✅, `<meta description>` 134 символа ✅, `<html lang="ru">` ✅, один `<h1>` ✅, `robots.txt`/`sitemap.xml` валидны ✅.
+  - **G** — 5 WOFF2 ~26 КБ ✅, hero.webp 185.6 КБ ✅, осиротевших SVG/Google Fonts нет ✅, `_archive/` не в `assets/` ✅.
+  - **H** — footer email `kilcurm@yandex.ru` ✅, `mailto:`-ссылка добавлена по запросу ✅, `t.me/...` нет ✅, телефон `+7 952 558-97-53` ✅, поле формы «Телефон / Telegram *» оставлено как есть ✅, `KODA.md` приведён в соответствие.
+- `HANDOFF.md` создан.
+- Исправлены 2 a11y-бага: дублирующийся `id="contact"` (инпут → `id="contact-field"`, секция сохранена), отсутствующий `id` у textarea (`id="message"`).
+- Исправлен наезд бургера на CTA: `padding-right` `.header-inner` с `--space-7` (48px) до `--space-8` (64px) на `≤1100px`.
+- Файлы переданы деплойщику.
