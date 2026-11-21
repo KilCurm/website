@@ -25,14 +25,6 @@
 
     <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet"
-    >
-
     <link rel="stylesheet" href="/assets/css/base.css">
     <link rel="stylesheet" href="/assets/css/layout.css">
     <link rel="stylesheet" href="/assets/css/components.css">
@@ -59,11 +51,23 @@
             </span>
         </a>
 
+        <button
+            class="nav-toggle"
+            type="button"
+            aria-label="Открыть меню"
+            aria-expanded="false"
+            aria-controls="mobile-menu"
+        >
+            <span class="nav-toggle__line"></span>
+            <span class="nav-toggle__line"></span>
+            <span class="nav-toggle__line"></span>
+        </button>
+
 
         <nav>
             <a href="#services">Услуги</a>
             <a href="#process">Как это работает</a>
-            <a href="#portfolio">Примеры работ</a>
+            <a href="#portfolio">Что можно изготовить</a>
             <a href="#advantages">О нас</a>
             <a href="#contact">Контакты</a>
         </nav>
@@ -80,6 +84,23 @@
     </div>
 
 </header>
+
+
+<!-- =========================
+        MOBILE MENU (burger, ≤1100px)
+========================= -->
+
+<div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+
+    <nav class="mobile-menu__nav">
+        <a href="#services">Услуги</a>
+        <a href="#process">Как это работает</a>
+        <a href="#portfolio">Что можно изготовить</a>
+        <a href="#advantages">О нас</a>
+        <a href="#contact">Контакты</a>
+    </nav>
+
+</div>
 
 
 <main>
@@ -384,23 +405,16 @@
             <div class="portfolio-intro">
 
                 <h2>
-                    Примеры
-                    работ
+                    Что можно
+                    изготовить
                 </h2>
 
                 <div class="red-line"></div>
 
                 <p>
-                    Реальные изделия,
-                    выполненные для разных задач.
+                    Типы изделий, которые мы можем
+                    изготовить из PLA, PETG, ABS, TPU.
                 </p>
-
-                <a
-                    href="#contact"
-                    class="btn btn--dark"
-                >
-                    Все работы →
-                </a>
 
             </div>
 
@@ -633,19 +647,23 @@
             <form
                 class="contact-form"
                 id="contactForm"
+                action="https://formspree.io/f/mkjrgroy"
+                method="POST"
             >
 
                 <div class="form-row">
 
                     <div class="form-group">
 
-                        <label>
+                        <label for="name">
                             Ваше имя *
                         </label>
 
                         <input
                             type="text"
+                            id="name"
                             name="name"
+                            autocomplete="name"
                             placeholder="Как к вам обращаться?"
                             required
                         >
@@ -655,13 +673,15 @@
 
                     <div class="form-group">
 
-                        <label>
+                        <label for="contact-field">
                             Телефон / Telegram *
                         </label>
 
                         <input
                             type="text"
+                            id="contact-field"
                             name="contact"
+                            autocomplete="tel"
                             placeholder="+7..."
                             required
                         >
@@ -673,11 +693,12 @@
 
                 <div class="form-group">
 
-                    <label>
+                    <label for="message">
                         Что нужно изготовить?
                     </label>
 
                     <textarea
+                        id="message"
                         name="message"
                         placeholder="Опишите задачу, размеры, материал или другие требования..."
                     ></textarea>
@@ -723,46 +744,16 @@
         </a>
 
 
-        <div class="footer-links">
-
-            <a href="#services">
-                Услуги
-            </a>
-
-            <a href="#process">
-                Как это работает
-            </a>
-
-            <a href="#portfolio">
-                Примеры работ
-            </a>
-
-            <a href="#advantages">
-                О нас
-            </a>
-
-            <a href="#contact">
-                Контакты
-            </a>
-
-        </div>
-
-
         <div class="footer-contacts">
 
             <span>
-                <svg aria-hidden="true"><use href="/assets/img/icons.svg#icon-send"></use></svg>
-                Telegram
-            </span>
-
-            <span>
                 <svg aria-hidden="true"><use href="/assets/img/icons.svg#icon-phone"></use></svg>
-                +7 999 123-45-67
+                <a href="tel:+79525589753">+7 952 558-97-53</a>
             </span>
 
             <span>
                 <svg aria-hidden="true"><use href="/assets/img/icons.svg#icon-mail"></use></svg>
-                info@3d-solutions.ru
+                <a href="mailto:kilcurm@yandex.ru">kilcurm@yandex.ru</a>
             </span>
 
         </div>
@@ -775,6 +766,7 @@
 
 <script src="/assets/js/nav.js" defer></script>
 <script src="/assets/js/form.js" defer></script>
+<script src="/assets/js/burger.js" defer></script>
 
 
 </body>

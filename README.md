@@ -9,21 +9,26 @@
 /
 ├── index.html              ← единственная страница
 ├── README.md               ← этот файл
+├── robots.txt              ← SEO
+├── sitemap.xml             ← SEO
+├── HANDOFF.md              ← инструкция деплойщику
 └── assets/
     ├── css/
-    │   ├── base.css        ← reset, :root-токены, body, a, img
+    │   ├── base.css        ← reset, :root-токены, @font-face, body, a, img
     │   ├── layout.css      ← .container, .section, .section-title, .red-line
     │   ├── components.css  ← кнопки, header, hero, секции, форма, footer, медиазапросы
     │   └── pages.css       ← переопределения под конкретные страницы (пока пусто)
+    ├── fonts/              ← self-host Inter (5 WOFF2, ~26 КБ каждый)
     ├── js/
     │   ├── nav.js          ← плавный скролл по якорям
-    │   └── form.js         ← отправка формы в Formspree (fetch), кнопка-индикатор
+    │   ├── form.js         ← отправка формы в Formspree (fetch + валидация), кнопка-индикатор
+    │   └── burger.js       ← toggle burger-меню
     └── img/
         ├── favicon.svg     ← иконка вкладки (логотип «К»)
         ├── logo.svg        ← основной логотип (шапка, подвал)
         ├── icons.svg       ← SVG-спрайт с <symbol> для всех иконок
         ├── og-image.webp   ← OG-картинка для превью (1200×630)
-        ├── hero/           ← фон hero и contact (hero.webp)
+        ├── hero/           ← фон hero и contact (hero.webp, 186 КБ)
         └── portfolio/      ← картинки работ (work-1..4.webp — AI-заглушки)
 ```
 
@@ -63,7 +68,7 @@ python -m http.server 8000
 3. Подключить те же 4 CSS в том же порядке и те же 2 JS с `defer`. Пути уже абсолютные (`/assets/...`), менять не нужно.
 4. Удалить секции, которые не нужны, оставить нужные.
 5. Если нужны переопределения конкретно под эту страницу — писать их в `pages.css` (не в `components.css`).
-6. Ссылку на новую страницу добавить в `<nav>` шапки и в `.footer-links`.
+6. Ссылку добавить в `<nav>` шапки и в `<nav class="mobile-menu__nav">`. Обе копии обязательны.
 
 ## Соглашения
 
@@ -90,6 +95,7 @@ python -m http.server 8000
   ```
 
   Скрипт не падает на странице без этого элемента.
+- burger.js — toggle burger-меню, aria-expanded/aria-hidden, закрытие по Esc/клику-вне/клику по ссылке.
 
 ### Картинки
 
@@ -115,10 +121,8 @@ python -m http.server 8000
 
 ## Что дальше (не в этой сессии)
 
-- **Высокий приоритет:** заменить AI-фото портфолио (`work-1..4.webp`) на реальные фото деталей. AI — временная заглушка. Имена файлов и размеры (800×800) сохранить, alt'ы проверить по факту.
-- Мобильная адаптация — отложено до появления реального устройства для проверки.
-- Self-host Inter, если Google Fonts окажется нестабильным на проде.
-- Валидация поля «Телефон / Telegram» и/или его переименование в «Как с вами связаться?» (@telegram / телефон / VK) — обсудить, не срочно.
+- Фото портфолио — ПОСЛЕ возвращения из командировки (модели → печать → съёмка → замена work-1..4.webp). До этого сайт деплоится с AI-заглушками.
+- Telegram: завести канал/аккаунт, добавить ссылку в footer (после командировки).
 - Проверить TLS на kubicus.ru после переключения DNS.
 
 ## История сессий
@@ -159,3 +163,72 @@ python -m http.server 8000
 - Источник картинок — AI-генерация, сетка 3×2, инструмент: ChatGPT.
 - **Портфолио — временное.** `work-1..4.webp` будут заменены на реальные фото деталей (см. «Что дальше»). Hero и og-image тоже AI, но живут до появления реального hero-фото; для og:image решаем отдельно после этого.
 - Header теперь rgba(5,9,12,.72) + backdrop-filter: blur(6px). Это работает, пока header position: absolute и виден только над тёмным hero. Если когда-нибудь сделаем его position: fixed со скроллом (липкая навигация) — нужно перепроверить на светлых секциях: blur будет «просвечивать» контент, и читаемость упадёт.
+
+### Сессия 5
+
+- **Аудит мобильной адаптации** (360px, 390px, 768px) по коду `components.css` и `layout.css`. 6 проблем (1 критично, 3 средне, 2 мелко, 2 флага).
+- **Исправлено:**
+  - Поля ввода `input, textarea`: `font-size: 13px` → `16px` — защита от iOS-зума при фокусе.
+  - Footer tap targets: добавлен `min-height: 44px` для `.footer-links a` и `.footer-contacts span`.
+  - Hero `min-height`: `700px` → `min(700px, 100vh)` — контент не уходит за fold на экранах ≤700px.
+  - Hero `h1` на `≤450px`: фиксированный `42px` → `clamp(28px, 11vw, 42px)` — адаптивный размер для 360px.
+- **В backlog:** burger-меню (навигация скрыта на `≤1100px`, пользователь не попадает в секции без прокрутки). Не добавлять без решения по структуре.
+- **Флаги (не оптимизировано):** `background-position: 65% center` — проверить визуально на AI-фоне; `backdrop-filter: blur` — проверить на FPS; hero-изображение 200–400 КБ — проверить вес на моб. интернете.
+
+### Сессия 6
+
+- **Мобильные CSS-фиксы (без burger-меню):**
+  - **2б** — Логотип по центру в header и footer на `≤700px`: `.header-inner { justify-content: center; position: relative }` (место под burger на сессию 7), `.footer-inner { align-items: center; text-align: center }`.
+  - **2в** — Уменьшение высоты блоков на 360/390: `.section` padding 48px (≤700) / 36px (≤450), `.service-card min-height: auto` (≤700), `gap: 8px` у сеток (≤450), `.section-title` margin-bottom 32px (≤700) / 24px (≤450).
+  - **2г(a)** — Process на 768px: `.process-step { border-left: none }` на `≤1100px` (убрана «ломаная» линия).
+  - **2г(b)** — Services на 768px: `.services-layout { grid-template-columns: 1fr }` на `≤1100px` (intro сверху, grid на всю ширину, карточки одинаковые).
+  - **2д** — Footer на `≤700px`: `.footer-links` и `.footer-contacts` в `flex-direction: column`, выравнивание по центру.
+- **Burger-меню не добавлено** (перенесено на сессию 7).
+
+### Сессия 7
+
+- **Process на 768px:** `.process-grid { row-gap: 30px }` → `gap: 30px` + `padding: 0` для всех `.process-step` (включая `:first-child`) в `@media ≤1100px`. Ряды 1 и 2 выровнены по левому краю. На ≤700px `padding: 25px 0` корректно переопределяет каскадом.
+- **Footer:** удалён блок `.footer-links` из HTML и CSS (включая `@media ≤700px`). Footer содержит только `logo` + `contacts`.
+- **Документация:** обновлён пункт 6 «Как добавить страницу» (убрано упоминание `.footer-links`), добавлен пункт про мобильную навигацию до сессии 8, KODA.md — «логотип + контакты».
+- **Burger-меню не добавлено** (перенесено на сессию 8).
+
+### Сессия 8
+
+- **Burger-меню:** `.nav-toggle` в header (кнопка-гамбургер, 44×44, три полоски → крестик через `aria-expanded`), панель `.mobile-menu` — отдельный блок после `</header>` (slide-down под шапкой, не overlay), ссылки продублированы из header nav.
+- Логика в `assets/js/burger.js` (новый файл, IIFE): toggle по кнопке, `aria-expanded`/`aria-label`/`aria-hidden`, закрытие по Esc, клику вне панели и клику по ссылке (auto-close).
+- Стили в `components.css`: базовые правила `.nav-toggle`/`.mobile-menu` + показ в `@media (max-width: 1100px)`. `.header-inner` там же получает `position: relative` и `padding-right: var(--space-7)` (место под кнопку, чтобы не накрыть CTA на 701–1100px); на `≤700px` padding сброшен (CTA скрыт).
+- Панель позиционируется `top: 74px` (высота шапки), а не `top: 100%`: `.mobile-menu` — вне `<header>`, `100%` от body ушло бы за экран.
+- На десктопе (≥1101px) кнопки и панели нет (`display: none` по умолчанию).
+- **Известная особенность:** transition панели (`transform`/`opacity`) не проигрывается при открытии, т.к. смена `display: none → block` не анимируется. Визуально панель появляется мгновенно. Если нужен плавный slide — решать отдельно (visibility/`@starting-style`/rAF).
+
+### Сессия 9
+
+- **Секция Portfolio переименована:** `<h2>` «Примеры работ» → «Что можно изготовить», подзаголовок → «Типы изделий, которые мы можем изготовить из PLA, PETG, ABS, TPU». Ссылки «Примеры работ» → «Что можно изготовить» в десктопном nav и в burger-меню. Кнопка «Все работы →» из `portfolio-intro` удалена (вела на форму, а не на «все работы»). `id="portfolio"` и alt'ы картинок не менялись.
+- **Self-host Inter:** 5 WOFF2 в `assets/fonts/` (`inter-400/500/600/700/800.woff2`, скачаны с rsms.me, лицензия SIL OFL, сабсетнуты до latin+cyrillic+пунктуация, ~26 КБ каждый). В `base.css` — 5 блоков `@font-face` с `font-display: swap` в самом верху, до `:root`. В `index.html` удалены preconnect и stylesheet Google Fonts. `body { font-family: "Inter", sans-serif }` не менялся.
+- **Fix transition burger-панели (вариант B):** в `.mobile-menu` `display: none/block` заменён на `visibility: hidden` + `max-height: 0` + `overflow: hidden` + `opacity: 0`; в `.is-open` — `visibility: visible` + `max-height: 100vh` + `opacity: 1`. `transition` с `visibility 0s .25s` при закрытии и `visibility 0s 0s` при открытии. `burger.js` не тронут — он уже управляет `.is-open` и `aria-hidden`.
+- **OG-проверка на временном деплое:** выполняется после коммита (Netlify Drop → metatags.io → превью в Telegram). Результат: ожидается.
+
+### Сессия 10
+
+- **Форма a11y:** `autocomplete` (`name`/`tel`/`off`), `label[for]` + `input[id]` для трёх полей. DevTools: 0 предупреждений.
+- **Form fallback:** `action="https://formspree.io/f/mkjrgroy"` + `method="POST"` в `<form>` — заявки доходят, даже если JS не загрузился.
+- **Валидация на JS:** имя ≥2, контакт ≥5, `trim()` — пустые/пробельные не уходят. Ошибка показывается через красную кнопку (тот же паттерн, что при ошибке fetch).
+- **Blur header** 6→4px (`backdrop-filter` + `-webkit-backdrop-filter`).
+- **`robots.txt` + `sitemap.xml`** (одна страница, `changefreq: monthly`, `priority: 1.0`, без `lastmod`).
+- **Hero-вес:** 186 КБ ≤ 250 КБ — оставлен без изменений.
+
+### Сессия 11
+
+- Финальный QA (только проверка, без правок):
+  - **A** — размеры: WebP 680.5 КБ ≤ 1 МБ ✅, шрифты 130 КБ ≤ 150 КБ ✅; Console/Network — от пользователя.
+  - **B** — валидация по коду: имя ≥ 2 ✅, контакт ≥ 5 ✅, `@username` проходит ✅, пустое имя → ошибка без POST ✅; burger.js (IIFE, toggle/Esc/клик-вне/клик-по-ссылке) ✅; nav.js smooth scroll ✅; CTA `#contact` ✅; favicon ✅.
+  - **C** — по коду: `input/textarea { font-size: 16px }` ✅, tap-targets 44×44 ✅, breakpoint 1100px ✅, clamp/aspect-ratio ✅; визуально (ширины 360/390/768/1200) — от пользователя.
+  - **D** — `-webkit-backdrop-filter` префикс присутствует ✅; Safari — не проверено.
+  - **E** — OG-теги все корректны, абсолютный URL ✅; `curl -I` на проду — после деплоя.
+  - **F** — `<title>` 43 символа ✅, `<meta description>` 134 символа ✅, `<html lang="ru">` ✅, один `<h1>` ✅, `robots.txt`/`sitemap.xml` валидны ✅.
+  - **G** — 5 WOFF2 ~26 КБ ✅, hero.webp 185.6 КБ ✅, осиротевших SVG/Google Fonts нет ✅, `_archive/` не в `assets/` ✅.
+  - **H** — footer email `kilcurm@yandex.ru` ✅, `mailto:`-ссылка добавлена по запросу ✅, `t.me/...` нет ✅, телефон `+7 952 558-97-53` ✅, поле формы «Телефон / Telegram *» оставлено как есть ✅, `KODA.md` приведён в соответствие.
+- `HANDOFF.md` создан.
+- Исправлены 2 a11y-бага: дублирующийся `id="contact"` (инпут → `id="contact-field"`, секция сохранена), отсутствующий `id` у textarea (`id="message"`).
+- Исправлен наезд бургера на CTA: `padding-right` `.header-inner` с `--space-7` (48px) до `--space-8` (64px) на `≤1100px`.
+- Файлы переданы деплойщику.

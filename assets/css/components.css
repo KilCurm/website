@@ -74,8 +74,8 @@
     border-bottom: 1px solid rgba(255, 255, 255, .08);
 
     background: rgba(5, 9, 12, .72);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
 }
 
 .header-inner {
@@ -127,6 +127,101 @@ nav a:hover {
 
 .header-button {
     white-space: nowrap;
+}
+
+
+/* ---------- Burger (≤1100px) ---------- */
+
+.nav-toggle {
+    display: none;
+    width: 44px;
+    height: 44px;
+
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.nav-toggle__line {
+    display: block;
+    width: 22px;
+    height: 2px;
+
+    background: var(--white);
+    border-radius: var(--radius-sm);
+
+    transition: transform .2s ease, opacity .2s ease;
+}
+
+.nav-toggle[aria-expanded="true"] .nav-toggle__line:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+
+.nav-toggle[aria-expanded="true"] .nav-toggle__line:nth-child(2) {
+    opacity: 0;
+}
+
+.nav-toggle[aria-expanded="true"] .nav-toggle__line:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+}
+
+.mobile-menu {
+    visibility: hidden;
+    max-height: 0;
+    overflow: hidden;
+    position: absolute;
+    top: 74px;
+    left: 0;
+    right: 0;
+    z-index: 9;
+
+    background: var(--dark);
+    transform: translateY(-10px);
+    opacity: 0;
+
+    transition:
+        opacity .2s ease,
+        transform .2s ease,
+        max-height .25s ease,
+        visibility 0s .25s;
+}
+
+.mobile-menu.is-open {
+    visibility: visible;
+    max-height: 100vh;
+    transform: translateY(0);
+    opacity: 1;
+
+    transition:
+        opacity .2s ease,
+        transform .2s ease,
+        max-height .25s ease,
+        visibility 0s 0s;
+}
+
+.mobile-menu__nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0; /* перебиваем nav { gap: 30px } */
+}
+
+.mobile-menu__nav a {
+    display: block;
+    padding: var(--space-4);
+    color: #d7dde0;
+    font-size: 16px;
+
+    border-bottom: 1px solid rgba(255, 255, 255, .08);
+}
+
+.mobile-menu__nav a:last-child {
+    border-bottom: none;
 }
 
 
@@ -583,7 +678,7 @@ textarea {
     outline: none;
 
     font: inherit;
-    font-size: 13px;
+    font-size: 16px; /* ≥16px — иначе iOS Safari зумит страницу при фокусе */
 }
 
 input:focus,
@@ -650,14 +745,6 @@ textarea {
     gap: 30px;
 }
 
-.footer-links {
-    display: flex;
-    gap: 25px;
-
-    color: #8d989e;
-    font-size: 12px;
-}
-
 .footer-contacts {
     display: flex;
     gap: 20px;
@@ -670,6 +757,8 @@ textarea {
     display: inline-flex;
     align-items: center;
     gap: 6px;
+
+    min-height: 44px; /* tap target */
 }
 
 .footer-contacts svg {
@@ -690,8 +779,25 @@ textarea {
         display: none;
     }
 
+    .header-inner {
+        position: relative;
+        padding-right: var(--space-8); /* увеличено до 64px, чтобы бургер не наезжал на CTA */
+    }
+
+    .nav-toggle {
+        display: flex;
+        position: absolute;
+        right: var(--space-3);
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
     .services-grid {
         grid-template-columns: repeat(3, 1fr);
+    }
+
+    .services-layout {
+        grid-template-columns: 1fr;
     }
 
     .portfolio-grid {
@@ -708,7 +814,13 @@ textarea {
 
     .process-grid {
         grid-template-columns: repeat(3, 1fr);
-        row-gap: 30px;
+        gap: 30px;
+    }
+
+    .process-step,
+    .process-step:first-child {
+        border-left: none;
+        padding: 0;
     }
 
 }
@@ -720,8 +832,14 @@ textarea {
         display: none;
     }
 
+    .header-inner {
+        justify-content: center;
+        position: relative; /* заложить место для burger-кнопки справа (сессия 7) */
+        padding-right: 0; /* CTA здесь скрыт, логотип центрируется без отступа */
+    }
+
     .hero {
-        min-height: 700px;
+        min-height: min(700px, 100vh);
 
         background-position: 65% center;
     }
@@ -751,6 +869,10 @@ textarea {
 
     .services-grid {
         grid-template-columns: repeat(2, 1fr);
+    }
+
+    .service-card {
+        min-height: auto;
     }
 
     .process-grid {
@@ -793,11 +915,13 @@ textarea {
 
     .footer-inner {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
+        text-align: center;
     }
 
-    .footer-links {
-        flex-wrap: wrap;
+    .footer-contacts {
+        flex-direction: column;
+        gap: 10px;
     }
 
 }
@@ -808,10 +932,11 @@ textarea {
     .services-grid,
     .portfolio-grid {
         grid-template-columns: 1fr;
+        gap: 8px;
     }
 
     .hero h1 {
-        font-size: 42px;
+        font-size: clamp(28px, 11vw, 42px);
     }
 
     .hero-buttons {

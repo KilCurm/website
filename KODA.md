@@ -11,14 +11,14 @@
 Landing page для бренда «КУБИКУС» — услуги 3D-печати, восстановления деталей, моделирования и изготовления функциональных изделий.
 
 Сайт содержит следующие секции:
-- **Header** — навигация + кнопка CTA (полупрозрачный с blur, `position: absolute`).
+- **Header** — навигация + кнопка CTA + burger-меню на `≤1100px` (полупрозрачный с blur, `position: absolute`).
 - **Hero** — заголовок, описание, две кнопки CTA, три преимущества (фон: AI-генерация `hero.webp`).
 - **Services** — 5 карточек услуг (изготовление деталей, восстановление, печать по модели, моделирование + печать, функциональные изделия).
 - **Process** — 5 шагов заказа (от описания задачи до получения изделия).
-- **Portfolio** — 4 карточки работ (AI-заглушки `work-1..4.webp`, 800×800, lazy-load).
+- **Portfolio («Что можно изготовить»)** — 4 карточки изделий (AI-заглушки `work-1..4.webp`, 800×800, lazy-load).
 - **Advantages** — 4 карточки преимуществ (инженерный подход, материалы, опыт, коммуникация).
 - **Contact** — форма заявки (имя, телефон/Telegram, описание задачи).
-- **Footer** — навигация + контакты (Telegram, телефон, email).
+- **Footer** — логотип + контакты (телефон, email).
 
 ---
 
@@ -26,34 +26,40 @@ Landing page для бренда «КУБИКУС» — услуги 3D-печа
 
 ```
 /
-├── index.html              ← единственная страница (781 строка)
+├── index.html              ← единственная страница (~800 строк)
 ├── README.md
 ├── KODA.md                 ← этот файл
+├── robots.txt              ← SEO, Allow all + Sitemap
+├── sitemap.xml             ← SEO, одна страница
+├── HANDOFF.md              ← инструкция деплойщику
 ├── assets/
 │   ├── css/
-│   │   ├── base.css        ← reset, :root-токены, body, a, img
+│   │   ├── base.css        ← reset, :root-токены, @font-face, body, a, img
 │   │   ├── layout.css      ← .container, .section, .section-title, .red-line
 │   │   ├── components.css  ← header, hero, секции, форма, footer, медиазапросы
 │   │   └── pages.css       ← переопределения под конкретные страницы (пока пусто)
+│   ├── fonts/
+│   │   ├── inter-400.woff2 ← self-host Inter, latin+cyrillic, ~26 КБ
+│   │   ├── inter-500.woff2
+│   │   ├── inter-600.woff2
+│   │   ├── inter-700.woff2
+│   │   └── inter-800.woff2
 │   ├── js/
 │   │   ├── nav.js          ← плавный скролл по якорям (IIFE)
-│   │   └── form.js         ← отправка формы в Formspree (fetch), кнопка-индикатор
+│   │   ├── form.js         ← отправка формы в Formspree (fetch + валидация), кнопка-индикатор
+│   │   └── burger.js       ← toggle burger-меню (IIFE)
 │   └── img/
 │       ├── favicon.svg     ← иконка вкладки (логотип «К»)
 │       ├── logo.svg        ← основной логотип (шапка, подвал)
 │       ├── icons.svg       ← SVG-спрайт с <symbol> для всех иконок
 │       ├── og-image.webp   ← OG-картинка (1200×630)
 │       ├── hero/
-│       │   └── hero.webp   ← фон hero + contact
+│       │   └── hero.webp   ← фон hero + contact (186 КБ)
 │       └── portfolio/
 │           ├── work-1.webp ← кронштейн (AI-заглушка)
 │           ├── work-2.webp ← шестерня (AI-заглушка)
 │           ├── work-3.webp ← подставка (AI-заглушка)
 │           └── work-4.webp ← ваза (AI-заглушка)
-└── _archive/ ← не трогать, не использовать как источник правды
-    ├── idea.html
-    ├── index.html
-    └── index.reference.html
 ```
 
 CSS подключается в `<head>` в порядке: **base → layout → components → pages**. Порядок важен.
@@ -91,8 +97,8 @@ python -m http.server 8000
 | Разметка | HTML5 |
 | Стили | CSS3 (custom properties, flexbox, grid) |
 | Скрипты | Vanilla JS (ES5), IIFE-паттерн |
-| Шрифт | Google Fonts — Inter (400, 500, 600, 700, 800) |
-| Формы | Formspree (`https://formspree.io/f/mkjrgroy`) |
+| Шрифт | Inter (self-host, `assets/fonts/`, WOFF2 400/500/600/700/800, `@font-face` в `base.css`) |
+| Формы | Formspree (fetch + fallback `action`/`method`), валидация: имя ≥2 / контакт ≥5 |
 | Иконки | SVG-спрайт (`icons.svg` + `<use>`) |
 | Изображения | WebP |
 
@@ -110,7 +116,7 @@ python -m http.server 8000
 - Именование — BEM-lite: `.service-card__title`, `.btn--outline`. Утилитарные классы (`.mt-20`) не вводить.
 - Медиазапросы — в конце того файла, где живёт компонент.
 - `header` и `footer` — самодостаточные, завязаны на `.site-header` и `.site-footer`.
-- Header полупрозрачный: `background: rgba(5, 9, 12, .72); backdrop-filter: blur(6px);` — работает при `position: absolute`. Если когда-нибудь сделать `position: fixed` — перепроверить читаемость на светлых секциях.
+- Header полупрозрачный: `background: rgba(5, 9, 12, .72); backdrop-filter: blur(4px);` — работает при `position: absolute`. Если когда-нибудь сделать `position: fixed` — перепроверить читаемость на светлых секциях.
 
 ### JS
 
@@ -149,22 +155,23 @@ python -m http.server 8000
 3. Подключить те же 4 CSS в том же порядке и те же 2 JS с `defer`.
 4. Удалить ненужные секции, оставить нужные.
 5. Переопределения — только в `pages.css`.
-6. Ссылку на новую страницу добавить в `<nav>` шапки и в `.footer-links`.
+6. Ссылку на новую страницу добавить в `<nav>` шапки и в `<nav class="mobile-menu__nav">`. Обе копии обязательны. Footer навигацию не содержит.
 
 ---
 
 ## Контактные данные (в footer)
 
-- Telegram: иконка `#icon-send`
-- Телефон: +7 999 123-45-67 (иконка `#icon-phone`)
-- Email: info@3d-solutions.ru (иконка `#icon-mail`)
+- Телефон: +7 952 558-97-53 (иконка `#icon-phone`, без ссылки)
+- Email: kilcurm@yandex.ru (иконка `#icon-mail`, `<a href="mailto:kilcurm@yandex.ru">`)
+- Telegram-ссылки в footer нет (заведём после командировки, см. backlog).
 
 ---
 
 ## Задачи из backlog (из README)
 
-- **Высокий приоритет:** заменить AI-фото портфолио (`work-1..4.webp`) на реальные фото деталей. Сохранить имена файлов и размеры (800×800).
-- Мобильная адаптация — отложено до появления реального устройства.
-- Self-host Inter, если Google Fonts окажется нестабильным.
-- Валидация поля «Телефон / Telegram» — не срочно.
+- Фото портфолио — после командировки (модели, печать, съёмка). До этого AI-заглушки — норма.
+- Telegram: завести канал/аккаунт, добавить ссылку в footer (после командировки).
 - Проверить TLS на kubicus.ru после переключения DNS.
+- (обсудить) Переименование поля «Телефон / Telegram» в «Как с вами связаться?» — не срочно.
+- (a11y, правило на будущее) `id` полей формы не должны совпадать с `id` секций.
+  Сейчас соблюдено: секция `id="contact"`, инпут `id="contact-field"`.

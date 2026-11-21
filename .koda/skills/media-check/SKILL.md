@@ -1,5 +1,5 @@
 ---
-name: media_check
+name: media-check
 description: Describe when this skill should be used
 ---
 
