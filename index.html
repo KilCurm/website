@@ -647,19 +647,23 @@
             <form
                 class="contact-form"
                 id="contactForm"
+                action="https://formspree.io/f/mkjrgroy"
+                method="POST"
             >
 
                 <div class="form-row">
 
                     <div class="form-group">
 
-                        <label>
+                        <label for="name">
                             Ваше имя *
                         </label>
 
                         <input
                             type="text"
+                            id="name"
                             name="name"
+                            autocomplete="name"
                             placeholder="Как к вам обращаться?"
                             required
                         >
@@ -669,13 +673,15 @@
 
                     <div class="form-group">
 
-                        <label>
+                        <label for="contact">
                             Телефон / Telegram *
                         </label>
 
                         <input
                             type="text"
+                            id="contact"
                             name="contact"
+                            autocomplete="tel"
                             placeholder="+7..."
                             required
                         >
@@ -687,12 +693,14 @@
 
                 <div class="form-group">
 
-                    <label>
+                    <label for="message">
                         Что нужно изготовить?
                     </label>
 
                     <textarea
+                        id="message"
                         name="message"
+                        autocomplete="off"
                         placeholder="Опишите задачу, размеры, материал или другие требования..."
                     ></textarea>
 

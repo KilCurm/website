@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://kubicus.ru/sitemap.xml

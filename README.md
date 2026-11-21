@@ -116,7 +116,7 @@ python -m http.server 8000
 ## Что дальше (не в этой сессии)
 
 - Фото портфолио — ПОСЛЕ возвращения из командировки (модели → печать → съёмка → замена work-1..4.webp). До этого сайт деплоится с AI-заглушками.
-- Следующая сессия (10): form fallback без JS, валидация, вес hero, cross-browser, robots/sitemap.
+- Следующая сессия (11): финальный QA (Chrome/Firefox/Safari, 360/390/768/1200), HANDOFF.md, финальный прогон формы.
 - Валидация поля «Телефон / Telegram» и/или его переименование в «Как с вами связаться?» (@telegram / телефон / VK) — обсудить, не срочно.
 - Проверить TLS на kubicus.ru после переключения DNS.
 
@@ -202,3 +202,12 @@ python -m http.server 8000
 - **Self-host Inter:** 5 WOFF2 в `assets/fonts/` (`inter-400/500/600/700/800.woff2`, скачаны с rsms.me, лицензия SIL OFL, сабсетнуты до latin+cyrillic+пунктуация, ~26 КБ каждый). В `base.css` — 5 блоков `@font-face` с `font-display: swap` в самом верху, до `:root`. В `index.html` удалены preconnect и stylesheet Google Fonts. `body { font-family: "Inter", sans-serif }` не менялся.
 - **Fix transition burger-панели (вариант B):** в `.mobile-menu` `display: none/block` заменён на `visibility: hidden` + `max-height: 0` + `overflow: hidden` + `opacity: 0`; в `.is-open` — `visibility: visible` + `max-height: 100vh` + `opacity: 1`. `transition` с `visibility 0s .25s` при закрытии и `visibility 0s 0s` при открытии. `burger.js` не тронут — он уже управляет `.is-open` и `aria-hidden`.
 - **OG-проверка на временном деплое:** выполняется после коммита (Netlify Drop → metatags.io → превью в Telegram). Результат: ожидается.
+
+### Сессия 10
+
+- **Форма a11y:** `autocomplete` (`name`/`tel`/`off`), `label[for]` + `input[id]` для трёх полей. DevTools: 0 предупреждений.
+- **Form fallback:** `action="https://formspree.io/f/mkjrgroy"` + `method="POST"` в `<form>` — заявки доходят, даже если JS не загрузился.
+- **Валидация на JS:** имя ≥2, контакт ≥5, `trim()` — пустые/пробельные не уходят. Ошибка показывается через красную кнопку (тот же паттерн, что при ошибке fetch).
+- **Blur header** 6→4px (`backdrop-filter` + `-webkit-backdrop-filter`).
+- **`robots.txt` + `sitemap.xml`** (одна страница, `changefreq: monthly`, `priority: 1.0`, без `lastmod`).
+- **Hero-вес:** 186 КБ ≤ 250 КБ — оставлен без изменений.

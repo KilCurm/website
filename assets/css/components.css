@@ -74,8 +74,8 @@
     border-bottom: 1px solid rgba(255, 255, 255, .08);
 
     background: rgba(5, 9, 12, .72);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
 }
 
 .header-inner {

@@ -21,6 +21,35 @@
             timer = null;
         }
 
+        var nameField = form.querySelector('[name="name"]');
+        var contactField = form.querySelector('[name="contact"]');
+        var nameVal = nameField ? nameField.value.trim() : '';
+        var contactVal = contactField ? contactField.value.trim() : '';
+
+        if (nameVal.length < 2) {
+            button.classList.remove('is-success');
+            button.classList.add('is-error');
+            button.textContent = 'Укажите имя (минимум 2 символа)';
+            timer = setTimeout(function () {
+                button.classList.remove('is-error');
+                button.textContent = originalText;
+                timer = null;
+            }, FLASH_MS);
+            return;
+        }
+
+        if (contactVal.length < 5) {
+            button.classList.remove('is-success');
+            button.classList.add('is-error');
+            button.textContent = 'Укажите телефон или Telegram (минимум 5 символов)';
+            timer = setTimeout(function () {
+                button.classList.remove('is-error');
+                button.textContent = originalText;
+                timer = null;
+            }, FLASH_MS);
+            return;
+        }
+
         button.disabled = true;
         button.classList.remove('is-success', 'is-error');
         button.textContent = 'Отправка…';

@@ -95,7 +95,7 @@ python -m http.server 8000
 | Стили | CSS3 (custom properties, flexbox, grid) |
 | Скрипты | Vanilla JS (ES5), IIFE-паттерн |
 | Шрифт | Inter (self-host, `assets/fonts/`, WOFF2 400/500/600/700/800, `@font-face` в `base.css`) |
-| Формы | Formspree (`https://formspree.io/f/mkjrgroy`) |
+| Формы | Formspree (fetch + fallback `action`/`method`), валидация: имя ≥2 / контакт ≥5 |
 | Иконки | SVG-спрайт (`icons.svg` + `<use>`) |
 | Изображения | WebP |
 
